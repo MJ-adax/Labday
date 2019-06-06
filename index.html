@@ -46,7 +46,7 @@
             <a class="nav-link js-scroll-trigger" href="#projects">R&eacute;alisations</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#tech">Technologies</a>
+            <a class="nav-link js-scroll-trigger" href="#objectifs">Objectifs</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#realisation">Contacts</a>
@@ -73,8 +73,13 @@
       <div class="row">
         <div class="col-lg-8 mx-auto">
           <h2 class="text-white mb-4">&Agrave; propos de moi</h2>
-          <p class="text-white-50">Ayant d&eacute;couvert la Programmation Informatique et le D&eacute;veloppement Web dans le courant de l'année 2017, je me suis formé en autodidacte pendant plusieurs mois avant d'entamer une formation prefessionnalisante.<br>Depuis, je ne cesse de vouloir en apprendre davantage sur le monde du développement et prends plaisir à me mettre au défi sur de nouvelles technologies, de nouveaux langages et de nouveaux projets afin de perp&eacute;tuellement monter en compétences.</p>
-          <p class="text-white-50">Au travers de mes exp&eacute;riences professionnelles, j'ai &eacute;t&eacute; amen&eacute; &agrave; travailler sur des projets vari&eacute;s, tant par leur diversit&eacute; que par leur complexit&eacute;, m'enrichissant toujours davantage de l'exp&eacute;rience d'autres d&eacute;veloppeurs que des diff&eacute;rents corps de m&eacute;tiers gravitant autour de la profession.</p>
+          <p class="text-white-50">
+            Ayant d&eacute;couvert la Programmation Informatique et le D&eacute;veloppement Web dans le courant de l'année 2017, je me suis formé en autodidacte pendant plusieurs mois avant d'entamer une formation professionnalisante.<br>
+            Depuis, je ne cesse de vouloir en apprendre davantage sur le monde du développement et prends plaisir à me mettre au défi sur de nouvelles technologies, de nouveaux langages et de nouveaux projets afin de perp&eacute;tuellement monter en compétences.<br><br>
+            Au travers de mes exp&eacute;riences professionnelles, j'ai &eacute;t&eacute; amen&eacute; &agrave; travailler sur des projets vari&eacute;s, tant par leur diversit&eacute; que par leur complexit&eacute;, m'enrichissant toujours davantage de l'exp&eacute;rience d'autres d&eacute;veloppeurs que de l'expérience acquise par les projets eux-mêmes.<br>
+            Mon ambition, à l'avenir, serait de travailler dans la création de Jeux Vidéos. Créer des jeux dans la lignée d'un Super Meat Boy, d'un Spelunky, d'un Fez, d'un Hyper Light Drifter,..<br>
+            Autant de jeux vidéos indépendants qui ont su gagner une reconnaissance mondiale, par leurs gameplays originals et travaillés, par leurs musiques, créant ainsi des univers riches et immersifs pour un joueur qui s'y laisse naviguer.
+          </p>
 
         </div>
       </div>
@@ -90,7 +95,7 @@
       <!-- Featured Project Row -->
       <div class="row align-items-center no-gutters mb-4 mb-lg-5">
         <div class="col-xl-8 col-lg-7">
-          <img class="img-fluid mb-3 mb-lg-0" src="img/bg-masthead2.jpg" alt="">
+          <img class="img-fluid mb-3 mb-lg-0" src="img/indé-heroes.jpg" alt="">
         </div>
         <div class="col-xl-4 col-lg-5">
           <div class="featured-text text-center text-lg-left">
@@ -104,12 +109,12 @@
       <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
         <div class="col-lg-6">
           <a>
-            <script type="application/processing" target="mon_prog">
+            <script type="application/processing" target="bulles">
               // create an array of ball objects
                 Ball [] theBalls = new Ball[100];
 
                 // keep track of how many balls we have already created
-                int maxBalls = 1000;
+                int maxBalls = 500;
                 int numBalls = 0;
                 int currentBall = 0;
 
@@ -251,7 +256,7 @@
                   }
                 }
             </script>
-            <canvas id="mon_prog"></canvas>
+            <canvas id="bulles"></canvas>
             <!--<canvas id="theCanvas" data-processing-sources="myProgramm.pde" tabindex="0" width="550" height="550" style="image-rendering: optimizeQuality !important;"></canvas> -->
           </a>
         </div>
@@ -271,14 +276,71 @@
       <!-- Project Two Row -->
       <div class="row justify-content-center no-gutters">
         <div class="col-lg-6">
-          <img class="img-fluid" src="img/demo-image-02.jpg" alt="">
+          <!--<img class="img-fluid" src="img/demo-image-02.jpg" alt=""> -->
+          <script type="application/processing" target="terrain">
+            int cols, rows;
+            int scl = 20;
+            int w = 1200;
+            int h = 800;
+
+            float flying = 0;
+
+            float[][] terrain;
+
+            void setup() {
+              size(555, 500, P3D);
+              cols = w / scl;
+              rows = h / scl;
+              terrain = new float[cols][rows];
+            
+              
+
+            }
+
+            void draw() {
+              
+              //flying -= 0.01; 
+              
+              float yoff = flying;
+              for (int y = 0; y < rows; y++) {
+                float xoff = 0;
+                for (int x = 0; x < cols; x++) { 
+                  terrain[x][y] = map(noise(xoff, yoff), 0, 1, -125, 125);
+                  xoff += 0.1;
+                }
+                yoff += 0.1;
+              }
+              
+              
+              background(0);
+              stroke(255);
+              noFill();
+              
+              translate(width/2,height/2+50);
+              rotateX(PI/3);
+              
+              translate(-w/2,-h/2);
+              for (int y = 0; y < rows-1; y++) {
+                beginShape(TRIANGLE_STRIP);
+                for (int x = 0; x < cols; x++) {
+                  vertex(x*scl, y*scl, terrain[x][y]);
+                  vertex(x*scl, (y+1)*scl, terrain[x][y+1]);
+
+                  //rect(x*scl, y*scl, scl, scl); 
+                }
+                endShape();
+              }
+
+            }
+          </script>
+          <canvas id="terrain"></canvas>
         </div>
         <div class="col-lg-6 order-lg-first">
           <div class="bg-black text-center h-100 project">
             <div class="d-flex h-100">
               <div class="project-text w-100 my-auto text-center text-lg-right">
-                <h4 class="text-white">Mountains</h4>
-                <p class="mb-0 text-white-50">Another example of a project with its respective description. These sections work well responsively as well, try this theme on a small screen!</p>
+                <h4 class="text-white">Terrain 3D</h4>
+                <p class="mb-0 text-white-50">L'exercice consistait ici à la création d'un terrain tridimensionnel généré aléatoirement</p>
                 <hr class="d-none d-lg-block mb-0 mr-0">
               </div>
             </div>
@@ -289,107 +351,268 @@
       <!-- Project Three Row -->
       <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
           <div class="col-lg-6">
-              <script type="application/processing" target="collision">
-                int numBalls = 12;
-                float spring = 0.05;
-                float gravity = 0.03;
-                float friction = -0.9;
-                Ball[] balls = new Ball[numBalls];
-
+              <script type="application/processing" target="birds">
                 void setup() {
-                size(550, 500);
-                for (int i = 0; i < numBalls; i++) {
-                  balls[i] = new Ball(random(width), random(height), random(30, 70), i, balls);
+                  size(555, 500);
+                  flock = new Flock();
+                  // Add an initial set of boids into the system
+                  for (int i = 0; i < 1 ; i++) {
+                    flock.addBoid(new Boid(width/2,height/2));
+                  }
                 }
-                noStroke();
-                fill(255, 204);
-              }
-
-              void draw() {
-                background(0);
-                for (Ball ball : balls) {
-                  ball.collide();
-                  ball.move();
-                  ball.display();  
+                
+                void draw() {
+                  background(50);
+                  flock.run();
                 }
-              }
-
-              class Ball {
                 
-                float x, y;
-                float diameter;
-                float vx = 0;
-                float vy = 0;
-                int id;
-                Ball[] others;
-              
-                Ball(float xin, float yin, float din, int idin, Ball[] oin) {
-                  x = xin;
-                  y = yin;
-                  diameter = din;
-                  id = idin;
-                  others = oin;
-                } 
+                // Add a new boid into the System
+                void mousePressed() {
+                  flock.addBoid(new Boid(mouseX,mouseY));
+                }
                 
-                void collide() {
-                  for (int i = id + 1; i < numBalls; i++) {
-                    float dx = others[i].x - x;
-                    float dy = others[i].y - y;
-                    float distance = sqrt(dx*dx + dy*dy);
-                    float minDist = others[i].diameter/2 + diameter/2;
-                    if (distance < minDist) { 
-                      float angle = atan2(dy, dx);
-                      float targetX = x + cos(angle) * minDist;
-                      float targetY = y + sin(angle) * minDist;
-                      float ax = (targetX - others[i].x) * spring;
-                      float ay = (targetY - others[i].y) * spring;
-                      vx -= ax;
-                      vy -= ay;
-                      others[i].vx += ax;
-                      others[i].vy += ay;
+                
+                
+                // The Flock (a list of Boid objects)
+                
+                class Flock {
+                  ArrayList<Boid> boids; // An ArrayList for all the boids
+                
+                  Flock() {
+                    boids = new ArrayList<Boid>(); // Initialize the ArrayList
+                  }
+                
+                  void run() {
+                    for (Boid b : boids) {
+                      b.run(boids);  // Passing the entire list of boids to each boid individually
                     }
-                  }   
+                  }
+                
+                  void addBoid(Boid b) {
+                    boids.add(b);
+                  }
+                
                 }
                 
-                void move() {
-                  vy += gravity;
-                  x += vx;
-                  y += vy;
-                  if (x + diameter/2 > width) {
-                    x = width - diameter/2;
-                    vx *= friction; 
-                  }
-                  else if (x - diameter/2 < 0) {
-                    x = diameter/2;
-                    vx *= friction;
-                  }
-                  if (y + diameter/2 > height) {
-                    y = height - diameter/2;
-                    vy *= friction; 
-                  } 
-                  else if (y - diameter/2 < 0) {
-                    y = diameter/2;
-                    vy *= friction;
-                  }
-                }
                 
-                void display() {
-                  ellipse(x, y, diameter, diameter);
+                
+                
+                // The Boid class
+                
+                class Boid {
+                
+                  PVector position;
+                  PVector velocity;
+                  PVector acceleration;
+                  float r;
+                  float maxforce;    // Maximum steering force
+                  float maxspeed;    // Maximum speed
+                
+                    Boid(float x, float y) {
+                    acceleration = new PVector(0, 0);
+                
+                    // This is a new PVector method not yet implemented in JS
+                    // velocity = PVector.random2D();
+                
+                    // Leaving the code temporarily this way so that this example runs in JS
+                    float angle = random(TWO_PI);
+                    velocity = new PVector(cos(angle), sin(angle));
+                
+                    position = new PVector(x, y);
+                    r = 2.0;
+                    maxspeed = 1.5;
+                    maxforce = 0.02;
+                  }
+                
+                  void run(ArrayList<Boid> boids) {
+                    flock(boids);
+                    update();
+                    borders();
+                    render();
+                  }
+                
+                  void applyForce(PVector force) {
+                    // We could add mass here if we want A = F / M
+                    acceleration.add(force);
+                  }
+                
+                  // We accumulate a new acceleration each time based on three rules
+                  void flock(ArrayList<Boid> boids) {
+                    PVector sep = separate(boids);   // Separation
+                    PVector ali = align(boids);      // Alignment
+                    PVector coh = cohesion(boids);   // Cohesion
+                    // Arbitrarily weight these forces
+                    sep.mult(1.5);
+                    ali.mult(1.0);
+                    coh.mult(1.0);
+                    // Add the force vectors to acceleration
+                    applyForce(sep);
+                    applyForce(ali);
+                    applyForce(coh);
+                  }
+                
+                  // Method to update position
+                  void update() {
+                    // Update velocity
+                    velocity.add(acceleration);
+                    // Limit speed
+                    velocity.limit(maxspeed);
+                    position.add(velocity);
+                    // Reset accelertion to 0 each cycle
+                    acceleration.mult(0);
+                  }
+                
+                  // A method that calculates and applies a steering force towards a target
+                  // STEER = DESIRED MINUS VELOCITY
+                  PVector seek(PVector target) {
+                    PVector desired = PVector.sub(target, position);  // A vector pointing from the position to the target
+                    // Scale to maximum speed
+                    desired.normalize();
+                    desired.mult(maxspeed);
+                
+                    // Above two lines of code below could be condensed with new PVector setMag() method
+                    // Not using this method until Processing.js catches up
+                    // desired.setMag(maxspeed);
+                
+                    // Steering = Desired minus Velocity
+                    PVector steer = PVector.sub(desired, velocity);
+                    steer.limit(maxforce);  // Limit to maximum steering force
+                    return steer;
+                  }
+                
+                  void render() {
+                    // Draw a triangle rotated in the direction of velocity
+                    float theta = velocity.heading2D() + radians(90);
+                    // heading2D() above is now heading() but leaving old syntax until Processing.js catches up
+                    
+                    fill(200, 100);
+                    stroke(255);
+                    pushMatrix();
+                    translate(position.x, position.y);
+                    rotate(theta);
+                    beginShape(TRIANGLES);
+                    vertex(0, -r*2);
+                    vertex(-r, r*2);
+                    vertex(r, r*2);
+                    endShape();
+                    popMatrix();
+                  }
+                
+                  // Wraparound
+                  void borders() {
+                    if (position.x < -r) position.x = width+r;
+                    if (position.y < -r) position.y = height+r;
+                    if (position.x > width+r) position.x = -r;
+                    if (position.y > height+r) position.y = -r;
+                  }
+                
+                  // Separation
+                  // Method checks for nearby boids and steers away
+                  PVector separate (ArrayList<Boid> boids) {
+                    float desiredseparation = 25.0f;
+                    PVector steer = new PVector(0, 0, 0);
+                    int count = 0;
+                    // For every boid in the system, check if it's too close
+                    for (Boid other : boids) {
+                      float d = PVector.dist(position, other.position);
+                      // If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
+                      if ((d > 0) && (d < desiredseparation)) {
+                        // Calculate vector pointing away from neighbor
+                        PVector diff = PVector.sub(position, other.position);
+                        diff.normalize();
+                        diff.div(d);        // Weight by distance
+                        steer.add(diff);
+                        count++;            // Keep track of how many
+                      }
+                    }
+                    // Average -- divide by how many
+                    if (count > 0) {
+                      steer.div((float)count);
+                    }
+                
+                    // As long as the vector is greater than 0
+                    if (steer.mag() > 0) {
+                      // First two lines of code below could be condensed with new PVector setMag() method
+                      // Not using this method until Processing.js catches up
+                      // steer.setMag(maxspeed);
+                
+                      // Implement Reynolds: Steering = Desired - Velocity
+                      steer.normalize();
+                      steer.mult(maxspeed);
+                      steer.sub(velocity);
+                      steer.limit(maxforce);
+                    }
+                    return steer;
+                  }
+                
+                  // Alignment
+                  // For every nearby boid in the system, calculate the average velocity
+                  PVector align (ArrayList<Boid> boids) {
+                    float neighbordist = 50;
+                    PVector sum = new PVector(0, 0);
+                    int count = 0;
+                    for (Boid other : boids) {
+                      float d = PVector.dist(position, other.position);
+                      if ((d > 0) && (d < neighbordist)) {
+                        sum.add(other.velocity);
+                        count++;
+                      }
+                    }
+                    if (count > 0) {
+                      sum.div((float)count);
+                      // First two lines of code below could be condensed with new PVector setMag() method
+                      // Not using this method until Processing.js catches up
+                      // sum.setMag(maxspeed);
+                
+                      // Implement Reynolds: Steering = Desired - Velocity
+                      sum.normalize();
+                      sum.mult(maxspeed);
+                      PVector steer = PVector.sub(sum, velocity);
+                      steer.limit(maxforce);
+                      return steer;
+                    } 
+                    else {
+                      return new PVector(0, 0);
+                    }
+                  }
+                
+                  // Cohesion
+                  // For the average position (i.e. center) of all nearby boids, calculate steering vector towards that position
+                  PVector cohesion (ArrayList<Boid> boids) {
+                    float neighbordist = 50;
+                    PVector sum = new PVector(0, 0);   // Start with empty vector to accumulate all positions
+                    int count = 0;
+                    for (Boid other : boids) {
+                      float d = PVector.dist(position, other.position);
+                      if ((d > 0) && (d < neighbordist)) {
+                        sum.add(other.position); // Add position
+                        count++;
+                      }
+                    }
+                    if (count > 0) {
+                      sum.div(count);
+                      return seek(sum);  // Steer towards the position
+                    } 
+                    else {
+                      return new PVector(0, 0);
+                    }
+                  }
                 }
-              }
 
 
               </script>
-            <canvas id="collision" width="550" height="500" style="image-rendering: optimizeQuality !important;"></canvas>
+            <canvas id="birds" width="550" height="500" style="image-rendering: optimizeQuality !important;"></canvas>
             
           </div>
           <div class="col-lg-6">
             <div class="bg-black text-center h-100 project">
-              <div class="d-flex h-100">
-                <div class="project-text w-100 my-auto text-center text-lg-left">
-                  <h4 class="text-white">Etude sur les collisions</h4>
-                  <p class="mb-0 text-white-50">Exp&eacute;rimentations sur le comportement d'objets ainsi que leur collision.</p>
-                  <hr class="d-none d-lg-block mb-0 ml-0">
+              <div  id="reglage-bloc">
+                <div class="d-flex h-100">
+                  <div class="project-text w-90 my-auto text-center text-lg-left">
+                      <h4 class="text-white">Etude sur les comportements</h4>
+                      <p class="mb-0 text-white-50">Exp&eacute;rimentations sur le comportement d'un grand nombre d'objets, leur collision et adaptation.</p>
+                    <hr class="d-none d-lg-block mb-0 ml-0">
+                  </div>
                 </div>
               </div>
             </div>
@@ -399,45 +622,38 @@
   </section>
 
   <!-- Technologies Section -->
-  <section id="tech" class="tech-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-10 col-lg-8 mx-auto text-center">
-
-          <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
-          <h2 class="text-white mb-5">Technologies</h2>
-
-          <div>
-            <img class="logo" src="./img/logo/logo-php.png" name="PHP" />
-            <div class="logo-ligne1">
-              <img class="logo" src="./img/logo/logo-html.png" name="HTML" />
-              <img class="logo" src="./img/logo/logo-css.png" name="CSS" />
-              <img class="logo" src="./img/logo/logo-js.png" name="JS" />
-
+  <section id="tech" class="objectif-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+  
+            <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+            <h2 class="text-white mb-5">Objectifs</h2>
+  
+            <div>
+              <p>
+                Les différentes réalisations présentées ci-dessus, parmi toutes celles crées, ont été réalisé sous Processing
+                et m'ont permis d'acquerir des compétences en Algorithmie ainsi que des notions importantes de JavaScript.<br>
+                Ces experimentations m'ont également donner une vision globale de différents concepts et mécaniques de jeu en vue d'entreprendre
+                la création d'un jeu vidéo riche d'un gameplay original et doté de graphismes minimalistes et épurés. 
+              </p>
             </div>
+  
           </div>
-
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Realisation Section -->
-  <section id="realisation" class="realisation-section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-10 col-lg-8 mx-auto text-center">
-
-          <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
-          <h2 class="text-white mb-5">Contacts</h2>
-
+    </section>
+  
+    <!-- Realisation Section -->
+    <section id="realisation" class="realisation-section">
+        <div class="container">
+          <div class="row"></div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
   <!-- Contact Section -->
   <section class="contact-section bg-black">
+    <h2 style="text-align: center; color: white"><br><br>Contact</h2>
     <div class="container">
 
       <div class="row">
@@ -449,8 +665,8 @@
               <h4 class="text-uppercase m-0">R&eacute;seaux Sociaux</h4>
               <hr class="my-4">
               <div>
-                <a target="_blank" href="https://github.com/MJ-adax">GitHub</a><br>
-                <a target="_blank" href="https://www.linkedin.com/in/maxime-joullin-7a3143153/">Lindekin</a>
+                  <a target="_blank" href="https://github.com/MJ-adax" class="fab fa-github"> GitHub</a><br>
+                  <a target="_blank" href="https://www.linkedin.com/in/maxime-joullin-7a3143153/" class="fab fa-linkedin"> LindekIn</a>
               </div>
             </div>
           </div>
@@ -463,7 +679,7 @@
               <h4 class="text-uppercase m-0">Email</h4>
               <hr class="my-4">
               <div class="small text-black-50">
-                <a href="#">maximejoullin@gmail.com</a>
+                <a href="mailto:maximejoullin@gmail.com">maximejoullin@gmail.com</a>
               </div>
             </div>
           </div>
@@ -481,27 +697,16 @@
         </div>
       </div>
 
-      <div class="social d-flex justify-content-center">
-        <a href="#" class="mx-2">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="#" class="mx-2">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="#" class="mx-2">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
 
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="bg-black small text-center text-white-50">
-    <div class="container">
-      Copyright &copy; Your Website 2019
-    </div>
-  </footer>
+      <div class="container">
+        Copyright &copy; Max-Site / LabDay 2019
+      </div>
+    </footer>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
