@@ -12,24 +12,22 @@
 
   <title>Maxime JOULLIN - Developpeur Web</title>
 
-  <!-- Bootstrap core CSS -->
+  <!-- BOOTSTRAP CORE CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom fonts for this template -->
+  <!-- CUSTOM ICONES ET POLICES POUR LE TEMPLATE -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
+  <!-- CUSTOM CSS POUR LE TEMPLATE -->
   <link href="css/grayscale.min.css" rel="stylesheet">
-
-  
 
 </head>
 
 <body id="page-top">
 
-  <!-- Navigation -->
+  <!-- GESTION DE LA NAVIGATION / NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">Max-Site / Labday</a>
@@ -56,7 +54,7 @@
     </div>
   </nav>
 
-  <!-- Header -->
+  <!-- GESTION DU HEADER / PUNCHLINE & SOUS PUNCHLINE + BOUTON "EXPLORER" -->
   <header class="masthead">
     <div class="container d-flex h-100 align-items-center">
       <div class="mx-auto text-center">
@@ -67,16 +65,15 @@
     </div>
   </header>
 
-  <!-- About Section -->
+  <!-- GESTION DE LA SECTION A PROPOS DE MOI -->
   <section id="about" class="about-section text-center">
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
           <h2 class="text-white mb-4">&Agrave; propos de moi</h2>
           <p class="text-white-50">
-            Ayant d&eacute;couvert la Programmation Informatique et le D&eacute;veloppement Web dans le courant de l'année 2017, je me suis formé en autodidacte pendant plusieurs mois avant d'entamer une formation professionnalisante.<br>
-            Depuis, je ne cesse de vouloir en apprendre davantage sur le monde du développement et prends plaisir à me mettre au défi sur de nouvelles technologies, de nouveaux langages et de nouveaux projets afin de perp&eacute;tuellement monter en compétences.<br><br>
-            Au travers de mes exp&eacute;riences professionnelles, j'ai &eacute;t&eacute; amen&eacute; &agrave; travailler sur des projets vari&eacute;s, tant par leur diversit&eacute; que par leur complexit&eacute;, m'enrichissant toujours davantage de l'exp&eacute;rience d'autres d&eacute;veloppeurs que de l'expérience acquise par les projets eux-mêmes.<br>
+            J'ai d&eacute;couvert la Programmation Informatique et le D&eacute;veloppement Web dans le courant de l'année 2017 et me suis formé en autodidacte pendant plusieurs mois.<br> Je prépare actuellement une license d'Analyste Développeur.<br>
+            Par l'apprentissage de différents langages et technologies, j'ai pu commencer à faire mes armes dans le monde du développement pour progressivement devenir autonome.<br><br>
             Mon ambition, à l'avenir, serait de travailler dans la création de Jeux Vidéos. Créer des jeux dans la lignée d'un Super Meat Boy, d'un Spelunky, d'un Fez, d'un Hyper Light Drifter,..<br>
             Autant de jeux vidéos indépendants qui ont su gagner une reconnaissance mondiale, par leurs gameplays originals et travaillés, par leurs musiques, créant ainsi des univers riches et immersifs pour un joueur qui s'y laisse naviguer.
           </p>
@@ -88,14 +85,14 @@
   </section>
 
 
-  <!-- Projects / Realisation Section -->
+  <!-- GESTION DE LA SECTION REALISATION -->
   <section id="projects" class="projects-section bg-light">
     <div class="container">
 
       <!-- Featured Project Row -->
       <div class="row align-items-center no-gutters mb-4 mb-lg-5">
         <div class="col-xl-8 col-lg-7">
-          <img class="img-fluid mb-3 mb-lg-0" src="img/indé-heroes.jpg" alt="">
+          <img class="img-fluid mb-3 mb-lg-0" src="img/sitemaxCLR.png" alt="">
         </div>
         <div class="col-xl-4 col-lg-5">
           <div class="featured-text text-center text-lg-left">
@@ -105,10 +102,86 @@
         </div>
       </div>
 
-      <!-- Project One Row -->
+      <!-- PROJET 01 : TERRAIN 3D -->
       <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
+
         <div class="col-lg-6">
-          <a>
+            <script type="application/processing" target="terrain">
+              int cols, rows;
+              int scl = 20;
+              int w = 1200;
+              int h = 800;
+  
+              float flying = 0;
+  
+              float[][] terrain;
+  
+              void setup() {
+                size(555, 500, P3D);
+                cols = w / scl;
+                rows = h / scl;
+                terrain = new float[cols][rows];
+              
+                
+  
+              }
+  
+              void draw() {
+                
+                //flying -= 0.05; 
+                
+                float yoff = flying;
+                for (int y = 0; y < rows; y++) {
+                  float xoff = 0;
+                  for (int x = 0; x < cols; x++) { 
+                    terrain[x][y] = map(noise(xoff, yoff), 0, 1, -125, 125);
+                    xoff += 0.2;
+                  }
+                  yoff += 0.2;
+                }
+                
+                
+                background(0);
+                stroke(255);
+                noFill();
+                
+                translate(width/2,height/2+50);
+                rotateX(PI/3);
+                
+                translate(-w/2,-h/2);
+                for (int y = 0; y < rows-1; y++) {
+                  beginShape(TRIANGLE_STRIP);
+                  for (int x = 0; x < cols; x++) {
+                    vertex(x*scl, y*scl, terrain[x][y]);
+                    vertex(x*scl, (y+1)*scl, terrain[x][y+1]);
+  
+                    //rect(x*scl, y*scl, scl, scl); 
+                  }
+                  endShape();
+                }
+  
+              }
+            </script>
+            <canvas id="terrain"></canvas>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="bg-black text-center h-100 project">
+            <div class="d-flex h-100">
+              <div class="project-text w-100 my-auto text-center text-lg-left">
+                  <h4 class="text-white">Terrain 3D</h4>
+                  <p class="mb-0 text-white-50">L'exercice consistait ici à la création d'un terrain tridimensionnel généré aléatoirement</p>
+                  <hr class="d-none d-lg-block mb-0 ml-0">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJET 02 : BULLES COLOREES -->
+      <div class="row justify-content-center no-gutters">
+
+        <div class="col-lg-6">
             <script type="application/processing" target="bulles">
               // create an array of ball objects
                 Ball [] theBalls = new Ball[100];
@@ -257,106 +330,31 @@
                 }
             </script>
             <canvas id="bulles"></canvas>
-            <!--<canvas id="theCanvas" data-processing-sources="myProgramm.pde" tabindex="0" width="550" height="550" style="image-rendering: optimizeQuality !important;"></canvas> -->
-          </a>
         </div>
-        <div class="col-lg-6">
-          <div class="bg-black text-center h-100 project">
-            <div class="d-flex h-100">
-              <div class="project-text w-100 my-auto text-center text-lg-left">
-                <h4 class="text-white">Graphisme</h4>
-                <p class="mb-0 text-white-50">Cr&eacute;ation d'un g&eacute;n&eacute;rateur de bulles de couleurs.<br>Cliquez pour tester !</p>
-                <hr class="d-none d-lg-block mb-0 ml-0">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Project Two Row -->
-      <div class="row justify-content-center no-gutters">
-        <div class="col-lg-6">
-          <!--<img class="img-fluid" src="img/demo-image-02.jpg" alt=""> -->
-          <script type="application/processing" target="terrain">
-            int cols, rows;
-            int scl = 20;
-            int w = 1200;
-            int h = 800;
-
-            float flying = 0;
-
-            float[][] terrain;
-
-            void setup() {
-              size(555, 500, P3D);
-              cols = w / scl;
-              rows = h / scl;
-              terrain = new float[cols][rows];
-            
-              
-
-            }
-
-            void draw() {
-              
-              //flying -= 0.01; 
-              
-              float yoff = flying;
-              for (int y = 0; y < rows; y++) {
-                float xoff = 0;
-                for (int x = 0; x < cols; x++) { 
-                  terrain[x][y] = map(noise(xoff, yoff), 0, 1, -125, 125);
-                  xoff += 0.1;
-                }
-                yoff += 0.1;
-              }
-              
-              
-              background(0);
-              stroke(255);
-              noFill();
-              
-              translate(width/2,height/2+50);
-              rotateX(PI/3);
-              
-              translate(-w/2,-h/2);
-              for (int y = 0; y < rows-1; y++) {
-                beginShape(TRIANGLE_STRIP);
-                for (int x = 0; x < cols; x++) {
-                  vertex(x*scl, y*scl, terrain[x][y]);
-                  vertex(x*scl, (y+1)*scl, terrain[x][y+1]);
-
-                  //rect(x*scl, y*scl, scl, scl); 
-                }
-                endShape();
-              }
-
-            }
-          </script>
-          <canvas id="terrain"></canvas>
-        </div>
         <div class="col-lg-6 order-lg-first">
           <div class="bg-black text-center h-100 project">
             <div class="d-flex h-100">
               <div class="project-text w-100 my-auto text-center text-lg-right">
-                <h4 class="text-white">Terrain 3D</h4>
-                <p class="mb-0 text-white-50">L'exercice consistait ici à la création d'un terrain tridimensionnel généré aléatoirement</p>
-                <hr class="d-none d-lg-block mb-0 mr-0">
+                  <h4 class="text-white">Graphisme</h4>
+                  <p class="mb-0 text-white-50">Cr&eacute;ation d'un g&eacute;n&eacute;rateur de bulles de couleurs.<br>Cliquez sur le carré de droite pour tester !</p> 
+                  <hr class="d-none d-lg-block mb-0 mr-0">
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Project Three Row -->
+      <!-- PROJET 03 : MIGRATION OISEAUX -->
       <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
+
           <div class="col-lg-6">
               <script type="application/processing" target="birds">
                 void setup() {
                   size(555, 500);
                   flock = new Flock();
                   // Add an initial set of boids into the system
-                  for (int i = 0; i < 1 ; i++) {
+                  for (int i = 0; i < 100 ; i++) {
                     flock.addBoid(new Boid(width/2,height/2));
                   }
                 }
@@ -601,28 +599,29 @@
 
 
               </script>
-            <canvas id="birds" width="550" height="500" style="image-rendering: optimizeQuality !important;"></canvas>
-            
+              <canvas id="birds" width="550" height="500" style="image-rendering: optimizeQuality !important;"></canvas>   
           </div>
+
           <div class="col-lg-6">
             <div class="bg-black text-center h-100 project">
               <div  id="reglage-bloc">
                 <div class="d-flex h-100">
                   <div class="project-text w-90 my-auto text-center text-lg-left">
                       <h4 class="text-white">Etude sur les comportements</h4>
-                      <p class="mb-0 text-white-50">Exp&eacute;rimentations sur le comportement d'un grand nombre d'objets, leur collision et adaptation.</p>
+                      <p class="mb-0 text-white-50">Simulation d'une migration d'oiseaux, exp&eacute;rimentations sur le comportement d'un grand nombre d'objets, leur collision et adaptation.</p>
                     <hr class="d-none d-lg-block mb-0 ml-0">
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Technologies Section -->
-  <section id="tech" class="objectif-section">
+  <!-- GESTION DE LA SECTION OBJECTIF -->
+  <section id="objectifs" class="objectif-section">
       <div class="container">
         <div class="row">
           <div class="col-md-10 col-lg-8 mx-auto text-center">
@@ -632,10 +631,9 @@
   
             <div>
               <p>
-                Les différentes réalisations présentées ci-dessus, parmi toutes celles crées, ont été réalisé sous Processing
-                et m'ont permis d'acquerir des compétences en Algorithmie ainsi que des notions importantes de JavaScript.<br>
-                Ces experimentations m'ont également donner une vision globale de différents concepts et mécaniques de jeu en vue d'entreprendre
-                la création d'un jeu vidéo riche d'un gameplay original et doté de graphismes minimalistes et épurés. 
+                Cette liste non exhaustive de réalisations m'a permis d'acquérir des compétences en Algorithmie ainsi que des notions importantes de JavaScript.<br>
+                Réalisé principalement sous Processing, ces expérimentations m'ont également donner une vision globale de différents concepts et mécaniques à, potentiellement, implémenter dans un jeu vidéo.<br>
+                L'objectif visé serait la création d'un jeu vidéo riche d'un gameplay original et doté de graphismes minimalistes et épurés. 
               </p>
             </div>
   
@@ -644,15 +642,15 @@
       </div>
     </section>
   
-    <!-- Realisation Section -->
-    <section id="realisation" class="realisation-section">
+    <!-- EMPLACEMENT DE LA SECTION IMAGE -->
+    <section  class="firewatch-section">
         <div class="container">
           <div class="row"></div>
         </div>
-    </section>
+    </section> 
 
-  <!-- Contact Section -->
-  <section class="contact-section bg-black">
+  <!-- GESTION DE LA SECTION CONTACT-->
+  <section id="realisation" class="contact-section bg-black">
     <h2 style="text-align: center; color: white"><br><br>Contact</h2>
     <div class="container">
 
